@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html >
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/table.css">
+	<link rel="stylesheet" type="text/css" href="css/filter.css">
+	<script type="text/javascript" src="js/respond.js"></script>
+
+	<style>
+		a{
+			text-decoration:  none  !important;
+		}
+
+	</style>
+</head>
+<body onload="fun()">
+	<div class="container">
+		<div class="row">
+			<div class="panel panel-success filterable">
+				<div class="panel-heading">
+					<h3 class="panel-title"><strong>ADMIN PANEL</strong></h3>
+					<div class="pull-right">
+						<button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span>Filter</button>
+					</div>
+				</div>
+				<table class="table table-striped" style="font-size:18px;" >
+					<thead>
+						<tr class="filters">
+							<th><input type="text" class="from-control" placeholder="Paper Id" disabled></th>
+							<th><input type="text" class="from-control" placeholder="Firstname" disabled></th>
+							<th><input type="text" class="from-control" placeholder="Middlename" disabled></th>
+							<th><input type="text" class="from-control" placeholder="Lastname" disabled></th>
+							<th><input type="text" class="from-control" placeholder="Email" disabled></th>
+						</tr>
+					</thead>
+					<tbody id="table">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script src="js/jquery.min.js"></script>
+    <script src="js/table.js"></script>
+    <script src="js/filter.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			function  fun() {
+				var xmlhttp=new XMLHttpRequest();
+    			xmlhttp.onreadystatechange=function() {
+    				if (this.readyState==4 && this.status==200 && JSON.parse(this.responseText).length!=0 ) {
+    						var y=this.responseText;
+        					var z=JSON.parse(y);
+    						renderUI(z);
+
+    				}else{
+
+    				}
+    			}
+    			xmlhttp.open("GET","getuser_details.php,true");
+  				xmlhttp.send();
+			}
+			function renderUI(data){
+				var d = $("#table");
+				var html = "";
+
+				for (var i = 0; i < data.length; i++) {
+					html = html + "<tr>";
+					html = html + "<td>"+data[i].paper_id+"</td>";
+					html = html + "<td>"+data[i].firstname+"</td>";
+					html = html + "<td>"+data[i].middlename+"</td>";
+					html = html + "<td>"+data[i].lastname+"</td>";
+					html = html + "<td>"+data[i].email+"</td>";
+					html = html + "</tr>";
+				}
+
+				d.append(html);
+
+			}
+		</script>
+		<script>
+
+
+				function fcuk(x) {
+					console.log("click");
+					console.log(x.value);
+					console.log(x.id);
+					Parse.initialize("S0CYBr2HxVA5R8DuWfnKK1UlNFdlfl8StN6mvKr1","uxwwr9TPCke8LK7TpeZQ6KCJ9pgqdAExnTDLL4Lq");
+					var retriveObject = Parse.Object.extend("User");
+					/*var retriveData = new  Parse.Query(retriveObj);
+					retriveData.first(x.id,{
+						success:function(object) {
+							console.log("success");
+							console.log(object);
+							retriveData.set("userflag",x.value);
+							retriveData.save();
+						},
+						error:function(model,error){
+							console.log("error");
+						}
+					});*/
+
+					var retrievedata = new retreiveobject();
+				retrievedata.get(x.id,{
+				success: function(object) {
+				console.log("success");
+				console.log(object);
+				retrievedata.set("flag",x.value);
+				//retrievedata.set("phonenumber",9876543210);
+				retrievedata.save();
+				},
+			 error: function(model, error) {
+				console.log("error");
+					}
+	 });
+				}
+
+
+		</script>
+</body>
+</html>
